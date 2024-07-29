@@ -10,4 +10,7 @@ public class TiendaContext : DbContext
     }
 
     public DbSet<Producto> Productos { get; set; }
+    public DbSet<Marca> Marcas { get; set; }
+    public DbSet<Categoria> Categorias { get; set; }
+    
 }
