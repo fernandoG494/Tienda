@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-	<None Include="Data\Csvs\**" CopyToOutputDirectory="PreserveNewest" ></None>
+	<None Include="Data\Csvs\**" CopyToOutputDirectory="PreserveNewest"></None>
     <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
 
