@@ -5,6 +5,7 @@ namespace Core.Interfaces;
 
 public interface IGenericRepository<T> where T : BaseEntity
 {
+    Task<T> GetByIdAsync(int id);
     Task<T> CreateAsync(T entity);
     Task<IEnumerable<T>> GetAllAsync();
     IEnumerable<T> Find(Expression<Func<T, bool>> expression);
