@@ -4,7 +4,7 @@ using Infrastructure.Data;
 
 namespace Infrastructure.Repositories;
 
-internal class CategoriaRepository : GenericRepository<Categoria>, ICategoriaRepository
+public class CategoriaRepository : GenericRepository<Categoria>, ICategoriaRepository
 {
     public CategoriaRepository(TiendaContext context) : base(context)
     {
