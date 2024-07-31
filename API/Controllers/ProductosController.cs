@@ -30,4 +30,21 @@ public class ProductosController : BaseApiController
         var productos = await _unitOfWork.Productos.GetByIdAsync(id);
         return Ok(productos);
     }
+
+    // POST api/Productos
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<Producto>> Post(Producto producto)
+    {
+        _unitOfWork.Productos.Add(producto);
+        _unitOfWork.Save();
+
+        if (producto == null)
+        {
+            return BadRequest();
+        }
+
+        return CreatedAtAction(nameof(Post), new {id=producto.Id}, producto);
+    }
 }
