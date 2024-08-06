@@ -21,10 +21,10 @@ public class ProductosController : BaseApiController
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<IEnumerable<Producto>>> Get()
+    public async Task<ActionResult<IEnumerable<ProductoListDto>>> Get()
     {
         var productos = await _unitOfWork.Productos.GetAllAsync();
-        return Ok(productos);
+        return _mapper.Map<List<ProductoListDto>>(productos);
     }
 
     // GET api/:id
