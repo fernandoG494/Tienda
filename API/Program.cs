@@ -1,4 +1,5 @@
 using API.Extensions;
+using AspNetCoreRateLimit;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -6,6 +7,7 @@ using System.Reflection;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddAutoMapper(Assembly.GetEntryAssembly());
+builder.Services.ConfigureRateLimiting();
 builder.Services.ConfigureCors();
 builder.Services.AddApplicationServices();
 builder.Services.AddControllers();
@@ -16,6 +18,7 @@ builder.Services.AddDbContext<TiendaContext>(options =>
 });
 
 var app = builder.Build();
+app.UseIpRateLimiting();
 
 using (var scope = app.Services.CreateScope())
 {
