@@ -67,4 +67,22 @@ public class ProductosController : BaseApiController
 
         return producto;
     }
+
+    // DELETE api/Productos
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<Producto>> Delete(int id)
+    {
+        var producto = await _unitOfWork.Productos.GetByIdAsync(id);
+        if (producto == null)
+        {
+            return NotFound();
+        }
+
+        _unitOfWork.Productos.Remove(producto);
+        _unitOfWork.Save();
+
+        return NoContent();
+    }
 }
