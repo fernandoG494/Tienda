@@ -62,23 +62,25 @@ public class ProductosController : BaseApiController
         return CreatedAtAction(nameof(Post), new {id = producto.Id}, producto);
     }
 
-    //// PUT api/Productos
-    //[HttpPut("{id}")]
-    //[ProducesResponseType(StatusCodes.Status201Created)]
-    //[ProducesResponseType(StatusCodes.Status404NotFound)]
-    //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-    //public async Task<ActionResult<Producto>> Put(int id, [FromBody]Producto producto)
-    //{
-    //    if (producto == null)
-    //    {
-    //        return NotFound();
-    //    }
+    // PUT api/Productos
+    [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<ProductoAddUpdateDto>> Put(int id, [FromBody] ProductoAddUpdateDto productoDto)
+    {
+        if ( productoDto == null )
+        {
+            return NotFound();
+        }
 
-    //    _unitOfWork.Productos.Update(producto);
-    //    _unitOfWork.Save();
+        var producto = _mapper.Map<Producto>(productoDto);
+        _unitOfWork.Productos.Update(producto);
 
-    //    return producto;
-    //}
+        await _unitOfWork.SaveAsync();
+
+        return productoDto;
+    }
 
     //// DELETE api/Productos
     //[HttpDelete("{id}")]
