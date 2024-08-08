@@ -51,7 +51,9 @@ public static class ApplicationServiceExtensions
             options.DefaultApiVersion = new ApiVersion(0, 8);
             options.AssumeDefaultVersionWhenUnspecified = true;
             //options.ApiVersionReader = new UrlSegmentApiVersionReader();
-            options.ApiVersionReader = new QueryStringApiVersionReader("v");
+            //options.ApiVersionReader = new QueryStringApiVersionReader("v");
+            options.ApiVersionReader = new HeaderApiVersionReader("X-Version");
+            // nota: se quita la cadena de consulta y se envia por los encadenados
             options.ReportApiVersions = true;
         }).AddApiExplorer(options => {
             options.GroupNameFormat = "'v'V";
