@@ -24,11 +24,11 @@ public class ProductosController : BaseApiController
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Pager<ProductoListDto>>> Get([FromQuery] Params productParams)
     {
-        var resultados = await _unitOfWork.Productos.GetAllAsync(productParams.PageIndex, productParams.PageSize);
+        var resultados = await _unitOfWork.Productos.GetAllAsync(productParams.PageIndex, productParams.PageSize, productParams.Search);
         var listaProductosDto = _mapper.Map<List<ProductoListDto>>(resultados.registros);
         return new Pager<ProductoListDto>(
             listaProductosDto, resultados.totalRegistros,
-            productParams.PageIndex, productParams.PageSize
+            productParams.PageIndex, productParams.PageSize, productParams.Search
          );
     }
 

@@ -2,17 +2,19 @@
 
 public class Pager<T> where T : class
 {
-    public int PageIndex { set; get; }
-    public int PageSize { set; get; }
-    public int Total { set; get; }
-    public IEnumerable<T> Registers { set; get; }
+    public string Search { get; private set; }
+    public int PageIndex { get; private set; }
+    public int PageSize { get; private set; }
+    public int Total { get; private set; }
+    public IEnumerable<T> Registers { get; set; }
 
-    public Pager(IEnumerable<T> registers, int total, int pageIndex, int pageSizes)
+    public Pager(IEnumerable<T> registers, int total, int pageIndex, int pageSizes, string search)
     {
         Registers = registers;
         Total = total;
         PageIndex = pageIndex;
         PageSize = pageSizes;
+        Search = search;
     }
 
     public int TotalPages 
