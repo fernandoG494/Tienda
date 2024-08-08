@@ -50,7 +50,8 @@ public static class ApplicationServiceExtensions
         services.AddApiVersioning(options => {
             options.DefaultApiVersion = new ApiVersion(0, 8);
             options.AssumeDefaultVersionWhenUnspecified = true;
-            options.ApiVersionReader = new UrlSegmentApiVersionReader();
+            //options.ApiVersionReader = new UrlSegmentApiVersionReader();
+            options.ApiVersionReader = new QueryStringApiVersionReader("v");
             options.ReportApiVersions = true;
         }).AddApiExplorer(options => {
             options.GroupNameFormat = "'v'V";
