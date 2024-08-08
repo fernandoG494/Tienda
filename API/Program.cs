@@ -11,7 +11,12 @@ builder.Services.ConfigureRateLimiting();
 builder.Services.ConfigureCors();
 builder.Services.AddApplicationServices();
 builder.Services.ConfigureApiVersioning();
-builder.Services.AddControllers();
+
+builder.Services.AddControllers(options => {
+    options.RespectBrowserAcceptHeader = true;
+    options.ReturnHttpNotAcceptable = true;
+}).AddXmlSerializerFormatters();
+
 builder.Services.AddDbContext<TiendaContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
