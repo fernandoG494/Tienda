@@ -21,4 +21,16 @@ public class ProductoRepository : GenericRepository<Producto>, IProductoReposito
     {
         return await _context.Productos.Include(u => u.Marca).Include(u => u.Categoria).ToListAsync();
     }
+
+    public override async Task<(int totalRegistros, IEnumerable<Producto> registros)> GetAllAsync(int pageIndex, int pageSize)
+    {
+        var totalRegistros = await _context.Productos.CountAsync();
+        var registros = await _context.Productos
+            .Include(u => u.Marca)
+            .Include(u => u.Categoria)
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+        return (totalRegistros, registros);
+    }
 }
