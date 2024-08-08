@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers;
 
 
-[ApiVersion("0.8")]
+[ApiVersion("0.8", Deprecated = true)]
 [ApiVersion("1")]
 //[Route("api/v{v:apiVersion}/datosproductos")]
 // Nota: se manda el query param como '?v=1' u otra version que querramos 
