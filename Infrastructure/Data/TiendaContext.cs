@@ -14,11 +14,12 @@ public class TiendaContext : DbContext
     public DbSet<Marca> Marcas { get; set; }
     public DbSet<Categoria> Categorias { get; set; }
 
+    public DbSet<Usuario> Usuarios { get; set; }
+    public DbSet<Role> Roles { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
-
 }

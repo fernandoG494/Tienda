@@ -73,4 +73,26 @@ public class TiendaContextSeed
             logger.LogError(ex.Message);
         }
     }
+
+    public static async Task SeedRolesAsync(TiendaContext context, ILoggerFactory loggerFactory)
+    {
+        try
+        {
+            if ( !context.Roles.Any() )
+            {
+                var roles = new List<Role>()
+                {
+                    new Role { Id = 1, Nombre = "Administrador"},
+                    new Role { Id = 1, Nombre = "Administrador"},
+                    new Role { Id = 1, Nombre = "Administrador"},
+                };
+                context.Roles.AddRange(roles);
+                await context.SaveChangesAsync();
+            }
+        } catch (Exception ex)
+        {
+            var logger = loggerFactory.CreateLogger<TiendaContextSeed>();
+            logger.LogError(ex.Message);
+        }
+    }
 }
