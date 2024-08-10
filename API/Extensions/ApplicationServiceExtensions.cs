@@ -1,7 +1,10 @@
-﻿using Asp.Versioning;
+﻿using API.Services;
+using Asp.Versioning;
 using AspNetCoreRateLimit;
+using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.UnitOfWork;
+using Microsoft.AspNetCore.Identity;
 
 namespace API.Extensions;
 
@@ -18,6 +21,8 @@ public static class ApplicationServiceExtensions
 
     public static void AddApplicationServices (this IServiceCollection services)
     {
+        services.AddScoped<IPasswordHasher<Usuario>, PasswordHasher<Usuario>>();
+        services.AddScoped<IUserService, UserService>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 
