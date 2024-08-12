@@ -11,6 +11,7 @@ builder.Services.ConfigureRateLimiting();
 builder.Services.ConfigureCors();
 builder.Services.AddApplicationServices();
 builder.Services.ConfigureApiVersioning();
+builder.Services.AddJwt(builder.Configuration);  
 
 builder.Services.AddControllers(options => {
     options.RespectBrowserAcceptHeader = true;

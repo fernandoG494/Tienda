@@ -1,10 +1,14 @@
-﻿using API.Services;
+﻿using API.Helpers;
+using API.Services;
 using Asp.Versioning;
 using AspNetCoreRateLimit;
 using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.UnitOfWork;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace API.Extensions;
 
@@ -56,8 +60,6 @@ public static class ApplicationServiceExtensions
             options.AssumeDefaultVersionWhenUnspecified = true;
             //options.ApiVersionReader = new UrlSegmentApiVersionReader();
             //options.ApiVersionReader = new QueryStringApiVersionReader("v");
-            //options.ApiVersionReader = new HeaderApiVersionReader("X-Version");
-            // nota: se quita la cadena de consulta y se envia por los encadenados
 
             options.ApiVersionReader = ApiVersionReader.Combine(
                 new QueryStringApiVersionReader("v"),
@@ -67,6 +69,33 @@ public static class ApplicationServiceExtensions
         }).AddApiExplorer(options => {
             options.GroupNameFormat = "'v'V";
             options.SubstituteApiVersionInUrl = true;
+        });
+    }
+
+    public static void AddJwt(this IServiceCollection services, IConfiguration configuration)
+    {
+        // Configuration of AppSettings
+        services.Configure<JWT>(configuration.GetSection("JWT"));
+
+        // Adding authentication - JWT
+        services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(o => {
+            o.RequireHttpsMetadata = false;
+            o.SaveToken = false;
+            o.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = false,
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero,
+                ValidIssuer = configuration["JWT:Issuer"],
+                ValidAudience = configuration["JWT:Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Key"]))
+            };
         });
     }
 }
