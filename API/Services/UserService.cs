@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using System.Net;
 using System.Security.Claims;
 using System.Text;
 
@@ -125,5 +124,41 @@ public class UserService : IUserService
             signingCredentials: signingCredentials
         );
         return jwtSecurityToken;
+    }
+
+    public async Task<string> AddRoleAsync(AddRoleDto model)
+    {
+        var usuario = await _unitOfWork.Usuarios.GetByUsernameAsync(model.Username);
+
+        if (usuario == null)
+        {
+            return $"No existe algun usuario registrado con esa cuenta";
+        }
+
+        var resultado = _passwordHasher.VerifyHashedPassword(usuario, usuario.Password, model.Password);
+
+        if (resultado == PasswordVerificationResult.Success)
+        {
+            var rolExiste = _unitOfWork.Roles
+                .Find(u => u.Nombre.ToLower() == model.Role.ToLower())
+                .FirstOrDefault();
+
+            if (rolExiste != null)
+            {
+                var usuarioTieneRol = usuario.Roles.Any(u => u.Id == rolExiste.Id);
+
+                if ( usuarioTieneRol == false)
+                {
+                    usuario.Roles.Add(rolExiste);
+                    _unitOfWork.Usuarios.Update(usuario);
+                    await _unitOfWork.SaveAsync();
+                }
+                return $"Rol {model.Role} agregado a la cuenta {model.Username} de forma exitosa";
+            }
+
+            return $"Rol {model.Role} no encontrado";
+        }
+
+        return $"Credenciales incorrectas para el usuario {usuario.Username}";
     }
 }
