@@ -20,5 +20,7 @@ public class UsuarioConfiguration : IEntityTypeConfiguration<Usuario>
             j => j.HasOne(pt => pt.Usuario).WithMany(p => p.UsuariosRoles).HasForeignKey(pt => pt.UsuarioId),
             j => { j.HasKey(t => new { t.UsuarioId, t.RoleId }); }
         );
+
+        builder.HasMany(p => p.RefreshTokens).WithOne(p => p.Usuario).HasForeignKey(p => p.UsuarioId);
     }
 }
