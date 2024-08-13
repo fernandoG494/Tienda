@@ -13,6 +13,8 @@ public class UsuarioRepository : GenericRepository<Usuario>, IUsuarioRepository
 
     public async Task<Usuario> GetByUsernameAsync(string username)
     {
-        return await _context.Usuarios.Include(u => u.Roles)
+        return await _context.Usuarios
+            .Include(u => u.Roles)
+            .FirstOrDefaultAsync(u => u.Username.ToLower() == username.ToLower());
     }
 }
