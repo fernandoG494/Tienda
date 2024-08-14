@@ -1,5 +1,6 @@
 ﻿using API.Dtos;
 using API.Helpers;
+using API.Helpers.Errors;
 using Asp.Versioning;
 using AutoMapper;
 using Core.Entities;
@@ -48,7 +49,7 @@ public class ProductosController : BaseApiController
         
         if (producto == null)
         {
-            return NotFound();
+            return NotFound(new ApiResponse(404, "El producto solicitado no existe"));
         }
         
         return _mapper.Map<ProductoDto>(producto);
@@ -66,7 +67,7 @@ public class ProductosController : BaseApiController
 
         if (producto == null)
         {
-            return BadRequest();
+            return BadRequest(new ApiResponse(400));
         }
         productoDto.Id = producto.Id;
         return CreatedAtAction(nameof(Post), new {id = producto.Id}, producto);
@@ -81,7 +82,7 @@ public class ProductosController : BaseApiController
     {
         if ( productoDto == null )
         {
-            return NotFound();
+            return NotFound(new ApiResponse(404, "El producto solicitado no existe"));
         }
 
         var producto = _mapper.Map<Producto>(productoDto);
@@ -101,7 +102,7 @@ public class ProductosController : BaseApiController
         var producto = await _unitOfWork.Productos.GetByIdAsync(id);
         if ( producto == null )
         {
-            return NotFound();
+            return NotFound(new ApiResponse(404, "El producto solicitado no existe"));
         }
 
         _unitOfWork.Productos.Remove(producto);
