@@ -25,6 +25,8 @@ builder.Services.AddControllers(options => {
     options.ReturnHttpNotAcceptable = true;
 }).AddXmlSerializerFormatters();
 
+builder.Services.AddValidationErrors();
+
 builder.Services.AddDbContext<TiendaContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
