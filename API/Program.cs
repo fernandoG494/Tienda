@@ -35,6 +35,7 @@ builder.Services.AddDbContext<TiendaContext>(options =>
 
 var app = builder.Build();
 app.UseMiddleware<ExceptionMiddleware>();
+app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
 app.UseIpRateLimiting();
 
