@@ -47,8 +47,8 @@ using (var scope = app.Services.CreateScope())
     }
     catch (Exception ex)
     {
-        var logger = loggerFactory.CreateLogger<TiendaContext>();
-        logger.LogError(ex, "Error during migration");
+        var _logger = loggerFactory.CreateLogger<TiendaContext>();
+        _logger.LogError(ex, "Error during migration");
     }
 }
 
