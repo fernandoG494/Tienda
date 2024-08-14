@@ -19,7 +19,8 @@ public class ApiResponse
             401 => "Usuario no encontrado",
             404 => "El recurso no existe",
             405 => "Este metodo no esta permitodo en el servidor",
-            500 => "Error al procesar el la peticion"
+            500 => "Error al procesar el la peticion",
+            _ => "Error desconocido"
         };
     }
 }
